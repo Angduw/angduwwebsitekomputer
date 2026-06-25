@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angduw Komputer | Toko Laptop & PC Terlengkap</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <style>
+        /* --- CSS STYLING INTEGRASI UTAMA --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background-color: #f4f7f6; color: #333; scroll-behavior: smooth; }
+        
+        /* Navigasi */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 5%; background: white; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; }
+        .logo { font-size: 22px; font-weight: bold; color: #007bff; cursor: pointer; }
+        .logo i { margin-right: 10px; }
+        nav ul { display: flex; list-style: none; align-items: center; }
+        nav ul li { margin-left: 20px; }
+        nav ul li a { text-decoration: none; color: #555; font-weight: 500; cursor: pointer; transition: color 0.2s; }
+        nav ul li a:hover { color: #007bff; }
+        .btn-logout { background: #dc3545; color: white !important; padding: 6px 14px; border-radius: 6px; font-size: 14px; font-weight: bold; }
+        .btn-logout:hover { background: #c82333 !important; }
+
+        /* Halaman Dinamis */
+        .page-section { display: none; padding: 40px 5%; }
+        .active { display: block; }
+
+        /* Landing Page Hero */
+        .hero { height: 45vh; background: linear-gradient(rgba(0,123,255,0.85), rgba(40,44,52,0.9)), url('https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1200') no-repeat center center/cover; 
+                display: flex; flex-direction: column; justify-content: center; align-items: center; color: white; text-align: center; border-radius: 0 0 20px 20px; padding: 20px; }
+        .hero h1 { font-size: 38px; margin-bottom: 10px; font-weight: 800; letter-spacing: -0.5px; }
+        .hero p { font-size: 18px; color: #e1e7fc; max-w: 600px; }
+        
+        /* Profil Perusahaan */
+        .profile-card { background: white; border-radius: 15px; padding: 30px; margin-top: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.02); border: 1px solid #eef2f5; text-align: center; }
+        .profile-card h2 { color: #222; margin-bottom: 15px; font-size: 26px; }
+        .profile-card p { color: #666; line-height: 1.7; font-size: 15px; max-w: 850px; margin: 0 auto; text-align: justify; }
+
+        /* Section Heading */
+        .section-title { font-size: 26px; font-weight: 700; color: #222; margin: 40px 0 10px 0; display: flex; align-items: center; border-bottom: 2px solid #eef2f5; padding-bottom: 10px; }
+        .section-title i { margin-right: 12px; color: #007bff; }
+        
+        /* Katalog & Card */
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-top: 20px; }
+        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid #eee; display: flex; flex-direction: column; justify-content: space-between; }
+        .card img { width: 100%; height: 200px; object-fit: cover; background: #f0f0f0; }
+        .card-body { padding: 20px; }
+        .card-body h3 { font-size: 19px; color: #111; margin-bottom: 10px; font-weight: 700; }
+        
+        /* Spesifikasi List */
+        .spec-list { list-style: none; margin: 12px 0; font-size: 13.5px; color: #555; }
+        .spec-list li { margin-bottom: 6px; display: flex; align-items: center; }
+        .spec-list li i { color: #007bff; width: 22px; font-size: 14px; }
+        
+        /* Purna Jual Badge */
+        .warranty-box { background: #e7f3ff; color: #0056b3; font-size: 12px; padding: 10px; border-radius: 6px; margin-top: 12px; border-left: 4px solid #007bff; font-weight: 500; }
+
+        .price { color: #007bff; font-size: 22px; font-weight: bold; margin: 15px 0 5px 0; }
+        .btn-buy { width: 100%; background: #007bff; color: white; border: none; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 15px; transition: background 0.2s; }
+        .btn-buy:hover { background: #0056b3; }
+
+        /* Galeri Grid (10 Foto) */
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 20px; }
+        @media(min-width: 768px) { .gallery-grid { grid-template-columns: repeat(5, 1fr); } }
+        .gallery-item { height: 140px; border-radius: 8px; overflow: hidden; background: #e0e0e0; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+        .gallery-item:hover img { transform: scale(1.06); }
+
+        /* Sistem Operasional (Pembayaran & Pengiriman) */
+        .ops-container { display: grid; grid-template-columns: 1fr; gap: 25px; margin-top: 20px; }
+        @media(min-width: 768px) { .ops-container { grid-template-columns: 1fr 1fr; } }
+        .ops-box { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #eee; }
+        .ops-box h3 { font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; color: #222; }
+        .ops-box h3 i { margin-right: 10px; color: #007bff; }
+        .ops-list { list-style: none; font-size: 14px; color: #444; }
+        .ops-list li { margin-bottom: 12px; line-height: 1.6; }
+        .ops-list strong { color: #111; }
+
+        /* Customer Service */
+        .cs-container { background: #eaf4ff; border-radius: 15px; padding: 30px; text-align: center; margin-top: 40px; border: 1px dashed #b5d7ff; }
+        .cs-container h3 { font-size: 22px; color: #0056b3; margin-bottom: 8px; }
+        .cs-container p { font-size: 14px; color: #4f6e91; margin-bottom: 20px; }
+        .cs-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .cs-btn { display: inline-flex; align-items: center; padding: 12px 25px; border-radius: 8px; text-decoration: none; font-weight: bold; font-size: 15px; color: white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .cs-btn-wa { background: #25d366; }
+        .cs-btn-wa:hover { background: #1ebd58; }
+        .cs-btn-mail { background: #333; }
+        .cs-btn-mail:hover { background: #111; }
+        .cs-btn i { margin-right: 8px; font-size: 18px; }
+
+        /* Admin & Table */
+        .admin-box { background: white; padding: 25px; border-radius: 12px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.04); border: 1px solid #eee; }
+        .admin-box h3 { margin-bottom: 15px; font-size: 18px; color: #222; }
+        .admin-box h3 i { margin-right: 8px; color: #007bff; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: white; font-size: 14px; }
+        table th, table td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        table th { background: #007bff; color: white; font-weight: 600; }
+        .btn-delete { background: #dc3545; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .btn-delete:hover { background: #bd2130; }
+        
+        /* Auth Form */
+        .auth-container { max-width: 400px; margin: 60px auto; background: white; padding: 35px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); border: 1px solid #eee; text-align: center; }
+        .auth-container h2 { margin-bottom: 20px; font-size: 24px; color: #222; }
+        .auth-container input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .auth-container input:focus { border-color: #007bff; outline: none; }
+        .auth-container button { width: 100%; padding: 12px; background: #007bff; color: white; border: none; border-radius: 6px; cursor: pointer; margin-top: 12px; font-weight: bold; font-size: 15px; }
+        .auth-container button:hover { background: #0056b3; }
+
+        /* Modal Checkout */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); align-items: center; justify-content: center; padding: 15px; }
+        .modal-content { background: white; padding: 30px; border-radius: 12px; width: 100%; max-width: 450px; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 35px rgba(0,0,0,0.15); }
+        .payment-details { background: #f8f9fa; padding: 15px; border-radius: 8px; margin-top: 15px; border: 1px dashed #ced4da; display: none; }
+        .payment-details input { width: 100%; padding: 10px; margin: 6px 0; border: 1px solid #ddd; border-radius: 5px; font-size: 14px; }
+        
+        footer { text-align: center; padding: 30px; color: #888; font-size: 14px; background: white; border-top: 1px solid #eee; margin-top: 40px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo" onclick="showPage('home')"><i class="fas fa-laptop-code"></i> Angduw Komputer</div>
+        <ul>
+            <li><a onclick="showPage('home')"><i class="fas fa-home"></i> Home</a></li>
+            <li id="nav-login"><a onclick="showPage('auth')"><i class="fas fa-user"></i> Login/Register</a></li>
+            <li id="nav-admin" style="display:none;"><a onclick="showPage('admin')"><i class="fas fa-user-shield"></i> Admin Panel</a></li>
+            <li id="nav-logout" style="display:none;"><a onclick="handleLogout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </nav>
+
+    <div id="home" class="page-section active">
+        <header class="hero">
+            <h1>Toko Laptop & Komputer Murah Serang</h1>
+            <p>Solusi Perangkat Digital Terbaik dengan Kualitas Bintang Lima, Harga Kaki Lima</p>
+        </header>
+
+        <div class="profile-card" id="profil">
+            <h2>Profil Perusahaan</h2>
+            <p><strong>Angduw Komputer</strong> adalah penyedia solusi teknologi terpercaya yang berkomitmen untuk menyediakan laptop dan komputer berkualitas tinggi dengan harga yang sangat kompetitif. Kami melayani berbagai kebutuhan digital Anda, mulai dari perangkat harian untuk mahasiswa, komputasi bisnis, hingga spesifikasi tinggi untuk para profesional dan <i>gamers</i>. Dengan layanan purna jual yang solid dan customer service yang responsif, kami siap mendampingi setiap langkah komputasi digital Anda.</p>
+        </div>
+
+        <h2 class="section-title"><i class="fas fa-layer-group"></i> Katalog Produk & Spesifikasi Resmi</h2>
+        <div class="product-grid" id="product-list"></div>
+
+        <h2 class="section-title"><i class="fas fa-images"></i> Galeri Produk Kami</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=400" alt="Dell Inspiron Side"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=400" alt="Asus Vivobook Workspace"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=400" alt="Macbook Premium Model"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1547082299-de196ea013d6?q=80&w=400" alt="PC Desktop Minimalis"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=400" alt="PC Gaming Setup Custom"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1603302576837-37561b2e2302?q=80&w=400" alt="Laptop Keyboard Detail"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=400" alt="Laptop On Desk View"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1517059224940-d4af9eec41b7?q=80&w=400" alt="Imac All in One"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?q=80&w=400" alt="Komponen Processor Rig"></div>
+            <div class="gallery-item"><img src="https://images.unsplash.com/photo-1555664424-778a1e5e1b48?q=80&w=400" alt="Motherboard Inside Box"></div>
+        </div>
+
+        <h2 class="section-title"><i class="fas fa-sliders-h"></i> Sistem Operasional Toko</h2>
+        <div class="ops-container" id="operasional">
+            <div class="ops-box">
+                <h3><i class="fas fa-receipt"></i> Keterangan Metode Pembayaran</h3>
+                <ul class="ops-list">
+                    <li>💵 <strong>COD (Cash on Delivery):</strong> Sistem pembayaran tunai langsung di tempat saat unit barang diantarkan kurir lokal internal kami. Berlaku khusus wilayah Kota Serang.</li>
+                    <li>🏦 <strong>Transfer Bank:</strong> Transaksi aman melalui pemindahan dana bank resmi (BCA / Mandiri / BRI) sebelum pemrosesan logistik kurir dilakukan.</li>
+                    <li>💳 <strong>Credit / Layanan Produk PayLater:</strong> Layanan cicilan fleksibel tanpa kartu kredit yang bekerja sama dengan Akulaku, Shopee PayLater, dan Home Credit Indonesia (HCI).</li>
+                </ul>
+            </div>
+            <div class="ops-box">
+                <h3><i class="fas fa-shipping-fast"></i> Sistem Pengiriman Unit</h3>
+                <ul class="ops-list">
+                    <li>🛵 <strong>Kurir Instan Internal Lokal:</strong> Pengantaran kilat pada hari yang sama (Same-Day) langsung ke rumah guna menjaga unit aman bebas dari guncangan luar.</li>
+                    <li>📦 <strong>Ekspedisi Nasional Cargo:</strong> Pengiriman luar daerah kota via J&T, JNE, atau Sicepat yang wajib dikemas menggunakan <strong>Packing Kayu standar & Asuransi Kehilangan Penuh</strong>.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="cs-container">
+            <h3><i class="fas fa-headset"></i> Layanan Customer Service</h3>
+            <p>Butuh konsultasi spesifikasi rakitan komputer, panduan pembelian, atau klaim perlindungan purna jual? Hubungi tim kami:</p>
+            <div class="cs-buttons">
+                <a href="https://wa.me/6281200000000" target="_blank" class="cs-btn cs-btn-wa"><i class="fab fa-whatsapp"></i> WhatsApp Chat (Respon Cepat)</a>
+                <a href="mailto:support@angduwkomputer.com" class="cs-btn cs-btn-mail"><i class="fas fa-envelope"></i> support@angduwkomputer.com</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="auth" class="page-section">
+        <div class="auth-container" id="login-box">
+            <h2>Login Pengguna</h2>
+            <input type="text" id="login-user" placeholder="Username (Gunakan 'admin' untuk Panel Toko)">
+            <input type="password" id="login-pass" placeholder="Password (Gunakan 'admin123' untuk Admin)">
+            <button onclick="handleLogin()">Masuk Aplikasi</button>
+            <p onclick="document.getElementById('login-box').style.display='none'; document.getElementById('reg-box').style.display='block';" style="cursor:pointer; color:#007bff; margin-top:15px; font-size:14px;">Belum punya akun? Daftar Akun Baru</p>
+        </div>
+        
+        <div class="auth-container" id="reg-box" style="display:none;">
+            <h2>Daftar Akun Baru</h2>
+            <input type="text" id="reg-user" placeholder="Buat Username Baru">
+            <input type="password" id="reg-pass" placeholder="Buat Password Keamanan">
+            <button onclick="handleRegister()" style="background: #28a745;">Selesaikan Registrasi</button>
+            <p onclick="document.getElementById('reg-box').style.display='none'; document.getElementById('login-box').style.display='block';" style="cursor:pointer; color:#007bff; margin-top:15px; font-size:14px;">Sudah memiliki akun? Kembali Login</p>
+        </div>
+    </div>
+
+    <div id="admin" class="page-section">
+        <div class="admin-box">
+            <h3><i class="fas fa-plus-circle"></i> Tambah Produk Baru</h3>
+            <input type="text" id="p-name" placeholder="Nama Perangkat Komputer / Laptop" style="width:100%; padding:11px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
+            <input type="number" id="p-price" placeholder="Nominal Harga (Contoh: 3450000)" style="width:100%; padding:11px; margin:8px 0; border:1px solid #ddd; border-radius:5px;">
+            <p style="font-size:12px; color:#666; margin-top:5px;">Pilih Berkas Gambar Lokal:</p>
+            <input type="file" id="p-image" accept="image/*" onchange="handleFile()" style="margin:8px 0;">
+            <button onclick="saveProduct()" style="background:#28a745; color:white; border:none; padding:11px 22px; border-radius:5px; cursor:pointer; font-weight:bold; margin-top:10px;">Simpan ke Database</button>
+        </div>
+        
+        <div class="admin-box">
+            <h3><i class="fas fa-list"></i> Kelola Inventaris Produk</h3>
+            <table>
+                <thead><tr><th>Nama Unit Komputer</th><th>Aksi Kontrol</th></tr></thead>
+                <tbody id="admin-product-list"></tbody>
+            </table>
+        </div>
+        
+        <div class="admin-box">
+            <h3><i class="fas fa-shopping-cart"></i> Daftar Antrean Pesanan Masuk</h3>
+            <table>
+                <thead><tr><th>Waktu Masuk</th><th>Item Pesanan</th><th>Metode & Detail Bayar</th></tr></thead>
+                <tbody id="admin-order-list"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="pay-modal" class="modal">
+        <div class="modal-content">
+            <h3 style="text-align:center; margin-bottom:10px;"><i class="fas fa-shopping-cart"></i> Form Pemesanan</h3>
+            <p id="pay-item" style="margin:15px 0; font-weight:bold; text-align:center; color:#007bff; font-size:16px;"></p>
+            
+            <label style="font-size:14px; font-weight:600;">Pilih Opsi Metode Pembayaran:</label>
+            <select id="pay-method" onchange="togglePaymentInputs()" style="width:100%; padding:11px; margin:8px 0; border:1px solid #ddd; border-radius:6px; font-size:14px;">
+                <option value="">-- Hubungkan Metode --</option>
+                <option value="Transfer Bank">Transfer Bank / ATM Mandiri / BCA</option>
+                <option value="COD">COD (Bayar di Tempat Kurir)</option>
+                <option value="Credit / PayLater">Credit / Cicilan Leasing</option>
+            </select>
+
+            <div id="bank-input" class="payment-details">
+                <p style="font-size:12px; color:#666; margin-bottom:5px;">Isi Informasi Rekening Pengirim Anda:</p>
+                <input type="text" id="bank-name" placeholder="Nama Bank Asal (Misal: BCA)">
+                <input type="text" id="bank-user" placeholder="Nama Sesuai Buku Tabungan">
+                <input type="number" id="bank-number" placeholder="Nomor Rekening Anda">
+            </div>
+
+            <div id="cod-input" class="payment-details">
+                <p style="font-size: 13.5px; color: #333; text-align: center; line-height: 1.5;">Anda memilih layanan <b>COD (Cash On Delivery)</b>.<br>Unit akan disiapkan kurir toko dan dibayarkan tunai saat sampai di rumah.</p>
+            </div>
+
+            <div id="credit-input" class="payment-details">
+                <p style="font-size: 13.5px; color: #333; text-align: center; line-height: 1.5;">Anda memilih sistem <b>Kredit / PayLater</b>.<br>Proses verifikasi pengajuan limit akan diteruskan ke sistem Akulaku/HCI oleh Admin.</p>
+            </div>
+
+            <button onclick="confirmPay()" style="background:#28a745; color:white; border:none; padding:12px; border-radius:6px; width:100%; margin-top:20px; font-weight:bold; font-size:15px;">KONFIRMASI PEMBELIAN</button>
+            <button onclick="closeModal()" style="border:none; background:none; color:#dc3545; width:100%; margin-top:12px; cursor:pointer; font-size:14px;">Batalkan Proses</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Angduw Komputer. All rights reserved | Layanan Terintegrasi Mahasiswa Sistem Informasi.</p>
+    </footer>
+
+    <script>
+        let base64Img = "";
+        let selectedP = {};
+
+        // 10 DATABASE GAMBAR ONLINE DIRECT LINK (KATALOG & GALERI)
+        const defaultProducts = [
+            { 
+                name: "Dell Inspiron 14-3452 Slim", 
+                price: "2150000", 
+                img: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=600",
+                specs: ["Intel Celeron N3050 up to 2.16 GHz", "RAM 2GB DDR3L", "Penyimpanan 500GB HDD", "Layar 14.0\" HD Anti-Glare", "Sistem Windows 10 Home Ready"],
+                warranty: "Garansi Toko 1 Bulan (Hardware) & Servis Selamanya (Non-Sparepart)"
+            },
+            { 
+                name: "ASUS Vivobook Essential Series", 
+                price: "3450000", 
+                img: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?q=80&w=600",
+                specs: ["Intel Celeron N4020 Processor", "RAM 4GB DDR4 High Speed", "Penyimpanan 256GB NVMe SSD Fast-Boot", "Layar 14\" HD Bezel Tipis", "Wi-Fi 5 & Kamera HD Clear Web"],
+                warranty: "Garansi Resmi ASUS Masih Berjalan / Garansi Toko Full 3 Bulan"
+            },
+            { 
+                name: "ASUS Laptop 14 Premium Slim", 
+                price: "5200000", 
+                img: "https://images.unsplash.com/photo-1541807084-5c52b6b3adef?q=80&w=600",
+                specs: ["AMD Ryzen 3 3250U / Intel Core i3", "RAM 8GB DDR4 Dual Channel", "Penyimpanan 512GB M.2 NVMe PCIe SSD", "Layar 14\" Full HD IPS-Level Display", "Keyboard Backlit Menyala, Port Type-C"],
+                warranty: "Garansi Toko 6 Bulan + Gratis Instalasi Software Office/Desain"
+            },
+            { 
+                name: "PC Desktop Office & School Setup", 
+                price: "3100000", 
+                img: "https://images.unsplash.com/photo-1547082299-de196ea013d6?q=80&w=600",
+                specs: ["Intel Core i5-6500 (Generasi Ke-6)", "Motherboard Intel H110 Chipset", "RAM 8GB DDR4 PC-19200", "Dual Drive: 128GB SSD + 500GB HDD", "Lengkap Paket Monitor LED 19\" + KB & Mouse"],
+                warranty: "Garansi Komponen Baru 1 Tahun, Unit PC Rakitan 3 Bulan"
+            },
+            { 
+                name: "PC Gaming & Editing Rakitan Garuda", 
+                price: "5850000", 
+                img: "https://images.unsplash.com/photo-1587202372775-e229f172b9d7?q=80&w=600",
+                specs: ["AMD Ryzen 5 3600 / Intel Core i5 10th", "RAM Gaming 16GB (2x8GB) 3200MHz RGB", "VGA NVIDIA GeForce GTX 1650 4GB GDDR6", "SSD NVMe 512GB Gen3 x4", "Power Supply 500W 80+ Bronze Certified"],
+                warranty: "Garansi Rakitan Full 1 Tahun Toko & Distributor Resmi Komponen"
+            }
+        ];
+
+        // FUNGSI NAVIGASI PINDAH HALAMAN SECARA DINAMIS
+        function showPage(id) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if(id === 'home') renderHome();
+            if(id === 'admin') renderAdmin();
+            window.scrollTo(0,0);
+        }
+
+        // --- MANAJEMEN OTENTIKASI USER / ADMIN / LOGOUT ---
+        function handleRegister() {
+            const u = document.getElementById('reg-user').value;
+            const p = document.getElementById('reg-pass').value;
+            if(u && p) { 
+                localStorage.setItem('user_'+u, p); 
+                alert("Pendaftaran Berhasil! Silakan masuk kembali."); 
+                document.getElementById('reg-box').style.display='none'; 
+                document.getElementById('login-box').style.display='block'; 
+            } else {
+                alert("Mohon isi form registrasi!");
+            }
+        }
+
+        function handleLogin() {
+            const u = document.getElementById('login-user').value;
+            const p = document.getElementById('login-pass').value;
+            if(u === 'admin' && p === 'admin123') { 
+                sessionStorage.setItem('isLoggedIn', 'admin'); 
+                updateNav(true, true); 
+                showPage('admin'); 
+            } else if(localStorage.getItem('user_'+u) === p && u !== "") { 
+                sessionStorage.setItem('isLoggedIn', 'user'); 
+                updateNav(true, false); 
+                showPage('home'); 
+            } else { 
+                alert("Username atau Kode Password Salah!"); 
+            }
+        }
+
+        function handleLogout() { 
+            sessionStorage.removeItem('isLoggedIn'); 
+            updateNav(false, false); 
+            showPage('home'); 
+        }
+
+        function updateNav(isLoggedIn, isAdmin) {
+            document.getElementById('nav-login').style.display = isLoggedIn ? 'none' : 'block';
+            document.getElementById('nav-logout').style.display = isLoggedIn ? 'block' : 'none';
+            document.getElementById('nav-admin').style.display = (isLoggedIn && isAdmin) ? 'block' : 'none';
+        }
+
+        function handleFile() {
+            const file = document.getElementById('p-image').files[0];
+            const reader = new FileReader();
+            reader.onloadend = () => { base64Img = reader.result; };
+            if(file) reader.readAsDataURL(file);
+        }
+
+        function saveProduct() {
+            const name = document.getElementById('p-name').value;
+            const price = document.getElementById('p-price').value;
+            if(!name || !price || !base64Img) return alert("Harap lengkapi Nama, Harga, dan File Gambar!");
+            
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            products.push({ 
+                name, 
+                price, 
+                img: base64Img,
+                specs: ["Spesifikasi Custom User Rakitan", "RAM Standard Config", "Sistem Operasi Siap Pakai"],
+                warranty: "Garansi Standar Toko 1 Bulan"
+            });
+            localStorage.setItem('products', JSON.stringify(products));
+            
+            document.getElementById('p-name').value = "";
+            document.getElementById('p-price').value = "";
+            document.getElementById('p-image').value = "";
+            base64Img = "";
+            
+            renderAdmin();
+            alert("Produk Baru Berhasil Disimpan ke Katalog!");
+        }
+
+        function deleteProduct(i) {
+            if(confirm("Apakah Anda yakin ingin menghapus data produk ini?")) {
+                let products = JSON.parse(localStorage.getItem('products') || '[]');
+                products.splice(i, 1);
+                localStorage.setItem('products', JSON.stringify(products));
+                renderAdmin();
+            }
+        }
+
+        function renderAdmin() {
+            const products = JSON.parse(localStorage.getItem('products') || '[]');
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            document.getElementById('admin-product-list').innerHTML = products.map((p, i) => `<tr><td><b>${p.name}</b></td><td><button class="btn-delete" onclick="deleteProduct(${i})"><i class="fas fa-trash-alt"></i> Hapus</button></td></tr>`).join('');
+            document.getElementById('admin-order-list').innerHTML = orders.map(o => `<tr><td><small>${o.time}</small></td><td><b>${o.item}</b></td><td><span style="color:#28a745; font-weight:600;">${o.detail}</span></td></tr>`).reverse().join('');
+        }
+
+        function renderHome() {
+            let products = JSON.parse(localStorage.getItem('products') || '[]');
+            
+            // JIKA DATA LOKAL KOSONG ATAU MASIH MENGGUNAKAN UNTUK TEKS LOKAL YANG RUSAK, RESET KE LIVE ONLINE DIRECT URL
+            if (products.length === 0 || !products[0].img.includes('http')) {
+                localStorage.setItem('products', JSON.stringify(defaultProducts));
+                products = defaultProducts;
+            }
+
+            document.getElementById('product-list').innerHTML = products.map(p => {
+                let specItems = "";
+                if(p.specs && p.specs.length > 0) {
+                    specItems = p.specs.map(s => `<li><i class="fas fa-check-circle"></i> ${s}</li>`).join('');
+                } else {
+                    specItems = `<li><i class="fas fa-check-circle"></i> Spesifikasi Standar Unit Komputer</li>`;
+                }
+
+                let warrantyText = p.warranty ? p.warranty : "Garansi Toko 1 Bulan";
+
+                return `
+                    <div class="card">
+                        <img src="${p.img}" onerror="this.src='https://placehold.co/600x400?text=Gambar+Produk'">
+                        <div class="card-body">
+                            <h3>${p.name}</h3>
+                            <ul class="spec-list">
+                                ${specItems}
+                            </ul>
+                            <div class="warranty-box">
+                                <strong>Purna Jual:</strong> ${warrantyText}
+                            </div>
+                            <p class="price">Rp ${parseInt(p.price).toLocaleString('id-ID')}</p>
+                            <button class="btn-buy" onclick="openPay('${p.name}')"><i class="fas fa-shopping-basket"></i> Pesan Sekarang</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function togglePaymentInputs() {
+            const method = document.getElementById('pay-method').value;
+            document.getElementById('bank-input').style.display = method === 'Transfer Bank' ? 'block' : 'none';
+            document.getElementById('cod-input').style.display = method === 'COD' ? 'block' : 'none';
+            document.getElementById('credit-input').style.display = method === 'Credit / PayLater' ? 'block' : 'none';
+        }
+
+        // POPUP FORM PEMESANAN
+        function openPay(name) {
+            selectedP = { name };
+            document.getElementById('pay-item').innerText = "Produk: " + name;
+            document.getElementById('pay-modal').style.display = 'flex';
+        }
+
+        function closeModal() { 
+            document.getElementById('pay-modal').style.display = 'none'; 
+            document.getElementById('pay-method').value = "";
+            togglePaymentInputs();
+        }
+
+        function confirmPay() {
+            const method = document.getElementById('pay-method').value;
+            let detail = method;
+            if(!method) return alert("Silakan tentukan pilihan metode pembayaran!");
+            
+            if(method === 'Transfer Bank') {
+                const bName = document.getElementById('bank-name').value;
+                const bUser = document.getElementById('bank-user').value;
+                const bNum = document.getElementById('bank-number').value;
+                if(!bName || !bUser || !bNum) return alert("Mohon lengkapi data Bank untuk verifikasi transfer!");
+                detail = `Transfer Bank: ${bName} (A.n ${bUser}, No.Rek: ${bNum})`;
+            } else if(method === 'COD') {
+                detail = "Layanan COD (Bayar Cash di Tempat Kurir)";
+            } else if(method === 'Credit / PayLater') {
+                detail = "Metode Kredit / PayLater Toko (Proses Pembiayaan)";
+            }
+            
+            const orders = JSON.parse(localStorage.getItem('orders') || '[]');
+            orders.push({ time: new Date().toLocaleString('id-ID'), item: selectedP.name, detail });
+            localStorage.setItem('orders', JSON.stringify(orders));
+            alert("Pesanan Berhasil Disimpan!\nData pesanan Anda telah masuk ke sistem database antrean Admin Toko.");
+            closeModal();
+        }
+
+        window.onload = () => { 
+            if(sessionStorage.getItem('isLoggedIn')) {
+                updateNav(true, sessionStorage.getItem('isLoggedIn') === 'admin'); 
+            }
+            renderHome(); 
+        };
+    </script>
+</body>
+</html>
